@@ -1,0 +1,11 @@
+{
+    "criteria": {
+      "bed": {
+        "trigger": "minecraft:slept_in_bed"
+      }
+    },
+    "rewards": {
+      "function": "realsleep:_/adv/use"
+    }
+  }
+  
