@@ -16,11 +16,14 @@ function realsleep:_/attempt/do.1 with storage realsleep:var attempt
 
 execute store result score *attempt.times_required -realsleep run data get storage realsleep:settings sleeps_until_comfy
 
-execute if score *attempt.times_slept -realsleep < *attempt.times_required -realsleep store result score *attempt.window_start -realsleep run data get storage realsleep:settings uncomfy.sleep_window.start
-execute if score *attempt.times_slept -realsleep < *attempt.times_required -realsleep store result score *attempt.window_end -realsleep run data get storage realsleep:settings uncomfy.sleep_window.end
+scoreboard players set *attempt.comfy -realsleep 0
+execute if score *attempt.times_slept -realsleep >= *attempt.times_required -realsleep run scoreboard players set *attempt.comfy -realsleep 1
 
-execute if score *attempt.times_slept -realsleep >= *attempt.times_required -realsleep store result score *attempt.window_start -realsleep run data get storage realsleep:settings comfy.sleep_window.start
-execute if score *attempt.times_slept -realsleep >= *attempt.times_required -realsleep store result score *attempt.window_end -realsleep run data get storage realsleep:settings comfy.sleep_window.end
+execute if score *attempt.comfy -realsleep matches 0 store result score *attempt.window_start -realsleep run data get storage realsleep:settings uncomfy.sleep_window.start
+execute if score *attempt.comfy -realsleep matches 0 store result score *attempt.window_end -realsleep run data get storage realsleep:settings uncomfy.sleep_window.end
+
+execute if score *attempt.comfy -realsleep matches 1 store result score *attempt.window_start -realsleep run data get storage realsleep:settings comfy.sleep_window.start
+execute if score *attempt.comfy -realsleep matches 1 store result score *attempt.window_end -realsleep run data get storage realsleep:settings comfy.sleep_window.end
 
 execute store result score *attempt.time -realsleep run time query daytime
 
@@ -32,4 +35,6 @@ data remove storage realsleep:var attempt
 scoreboard players reset *attempt.time -realsleep
 scoreboard players reset *attempt.window_end -realsleep
 scoreboard players reset *attempt.window_start -realsleep
+scoreboard players reset *attempt.times_required -realsleep
+scoreboard players reset *attempt.comfy -realsleep
 scoreboard players reset *attempt.times_slept -realsleep
